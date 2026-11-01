@@ -32,8 +32,18 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build debug APK (no tests yet)
-        run: gradle assembleDebug
+      - name: Build debug APK (capture stacktrace)
+        run: |
+          gradle assembleDebug --stacktrace > /tmp/build-output.txt 2>&1 || echo "BUILD_FAILED" > /tmp/build-status.txt
+
+      - name: Report failure as issue
+        if: failure()
+        run: |
+          gh issue create \
+            --title "CI build failure — $(date +%Y-%m-%d_%H-%M-%S)" \
+            --label "ci-failure" \
+            --body "```$(cat /tmp/build-output.txt | head -c 60000)```" \
+            --repo zigorminsk-debug/Git-explorer-box || true
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
