@@ -30,23 +30,10 @@ jobs:
           echo "sdk.dir=/opt/android-sdk" > ${{ github.workspace }}/local.properties
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
 
-      - name: Build debug APK (retry up to 3 times, clear Gradle cache first)
-        run: |
-          # Clear potentially corrupted Gradle build cache
-          rm -rf ~/.gradle/caches/build-cache-1 2>/dev/null || true
-          for i in 1 2 3; do
-            echo "=== Build attempt $i ==="
-            if gradle assembleDebug --stacktrace --no-build-cache; then
-              echo "Build succeeded on attempt $i"
-              exit 0
-            fi
-            echo "Attempt $i failed, retrying in 10s..."
-            sleep 10
-          done
-          echo "All build attempts failed"
-          exit 1
+      - name: Build debug APK
+        run: gradle assembleDebug --stacktrace
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
