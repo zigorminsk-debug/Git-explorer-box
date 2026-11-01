@@ -30,10 +30,19 @@ Setting the namespace via the package attribute in the source AndroidManifest.xm
 Recommendation: remove package="com.gitexplorerbox.app" from the source AndroidManifest.xml: /home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/AndroidManifest.xml.
 
 > Task :app:processDebugManifest
-> Task :app:processDebugManifestForPackage
 > Task :app:javaPreCompileDebug
+> Task :app:mergeDebugShaders
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets
+> Task :app:compressDebugAssets
+> Task :app:checkDebugDuplicateClasses
+> Task :app:desugarDebugFileDependencies
+> Task :app:processDebugManifestForPackage
+> Task :app:mergeExtDexDebug
+> Task :app:mergeLibDexDebug
 > Task :app:processDebugResources FAILED
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_4-1793541916958.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_4-1793542058097.json
 
 [Incubating] Problems report is available at: file:///home/runner/work/Git-explorer-box/Git-explorer-box/build/reports/problems/problems-report.html
 
@@ -204,5 +213,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD FAILED in 49s
-14 actionable tasks: 14 executed
+BUILD FAILED in 1m 33s
+21 actionable tasks: 21 executed
