@@ -72,11 +72,11 @@ data class Repo(
                 o.optInt("stargazers_count", 0),
                 o.optInt("forks_count", 0),
                 o.optString("language", null).takeIf { it.isNotEmpty() },
-                license?.optString("spdx_id", null).takeIf { it.isNotEmpty() },
+                license?.optString("spdx_id", null)?.takeIf { it.isNotEmpty() },
                 o.optString("created_at", null).takeIf { it.isNotEmpty() },
                 o.optString("updated_at", null).takeIf { it.isNotEmpty() },
-                owner?.optString("login", null).takeIf { it.isNotEmpty() },
-                owner?.optString("avatar_url", null).takeIf { it.isNotEmpty() }
+                owner?.optString("login", null)?.takeIf { it.isNotEmpty() },
+                owner?.optString("avatar_url", null)?.takeIf { it.isNotEmpty() }
             )
         }
     }
