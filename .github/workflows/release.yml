@@ -27,7 +27,7 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
         with:
-          sdk: 'platform-tools,android-34,build-tools;34.0.0'
+          packages: 'platform-tools,android-34,build-tools;34.0.0'
 
       - name: Export Android SDK path for Gradle
         run: |
