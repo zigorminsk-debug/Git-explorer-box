@@ -5,6 +5,9 @@ on:
     branches: ['main', 'arena/**']
   pull_request:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,24 +27,9 @@ jobs:
           echo "sdk.dir=$SDK_DIR" > ${{ github.workspace }}/local.properties
           cat ${{ github.workspace }}/local.properties
 
-      - name: Debug SDK environment
-        run: |
-          echo "=== ANDROID_HOME=$ANDROID_HOME ==="
-          echo "=== SDK_DIR contents ==="
-          ls -la "${ANDROID_HOME:-/usr/local/lib/android/sdk}/" 2>&1 || echo "SDK dir not found"
-          echo "=== cmdline-tools ==="
-          ls -la "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/" 2>&1 || echo "cmdline-tools not found"
-          ls -la "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/" 2>&1 || echo "cmdline-tools/latest not found"
-          ls -la "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/" 2>&1 || echo "cmdline-tools/latest/bin not found"
-          echo "=== build-tools ==="
-          ls -la "${ANDROID_HOME:-/usr/local/lib/android/sdk}/build-tools/" 2>&1 || echo "build-tools not found"
-          echo "=== platforms ==="
-          ls -la "${ANDROID_HOME:-/usr/local/lib/android/sdk}/platforms/" 2>&1 || echo "platforms not found"
-
       - name: Install required SDK components
         run: |
           SDK_DIR="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
-          # Try both cmdline-tools paths
           if [ -f "$SDK_DIR/cmdline-tools/latest/bin/sdkmanager" ]; then
             SM="$SDK_DIR/cmdline-tools/latest/bin/sdkmanager"
           elif [ -f "$SDK_DIR/cmdline-tools/bin/sdkmanager" ]; then
@@ -72,24 +60,17 @@ jobs:
       - name: Build debug APK (stream output to console)
         run: |
           set -o pipefail
-          gradle assembleDebug --stacktrace --info 2>&1 | tee /tmp/build-output.txt
+          gradle assembleDebug --stacktrace 2>&1 | tee /tmp/build-output.txt
 
-      - name: Report build failure as commit comment
+      - name: Save build error log to repo
         if: failure()
         run: |
-          ERROR_LOG=$(cat /tmp/build-output.txt | head -c 30000)
-          curl -s -X POST "https://api.github.com/repos/zigorminsk-debug/Git-explorer-box/commits/${{ github.sha }}/comments" \
-            -H "Authorization: Bearer ${{ github.token }}" \
-            -H "Accept: application/vnd.github+json" \
-            -d "{\"body\":\"CI build failure: \`\`\`${ERROR_LOG}\`\`\`\"}" || true
-
-      - name: Upload build output log (always)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-output-log
-          path: /tmp/build-output.txt
-          if-no-files-found: warn
+          cp /tmp/build-output.txt BUILD_ERROR.log
+          git config user.email "ci@github-actions"
+          git config user.name "GitHub Actions"
+          git add BUILD_ERROR.log
+          git commit -m "CI build error log [skip ci]"
+          git push origin ${{ github.ref }}
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4

@@ -9,11 +9,12 @@ on:
         description: 'Версия релиза (пример: 1.0.5). Запишите также в CHANGELOG.md и app/build.gradle'
         required: false
 
+permissions:
+  contents: write
+
 jobs:
   build-and-sign:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,12 +34,29 @@ jobs:
       - name: Install required SDK components
         run: |
           SDK_DIR="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
-          yes | "$SDK_DIR/cmdline-tools/bin/sdkmanager" --sdk_root="$SDK_DIR" "platform-tools" "platforms;android-34" "build-tools;34.0.0" > /dev/null 2>&1 || true
+          if [ -f "$SDK_DIR/cmdline-tools/latest/bin/sdkmanager" ]; then
+            SM="$SDK_DIR/cmdline-tools/latest/bin/sdkmanager"
+          elif [ -f "$SDK_DIR/cmdline-tools/bin/sdkmanager" ]; then
+            SM="$SDK_DIR/cmdline-tools/bin/sdkmanager"
+          else
+            echo "sdkmanager not found!"
+            exit 1
+          fi
+          echo "Using sdkmanager: $SM"
+          yes | "$SM" --sdk_root="$SDK_DIR" "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Accept Android SDK licenses
         run: |
           SDK_DIR="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
-          yes | "$SDK_DIR/cmdline-tools/bin/sdkmanager" --sdk_root="$SDK_DIR" --licenses > /dev/null 2>&1 || true
+          if [ -f "$SDK_DIR/cmdline-tools/latest/bin/sdkmanager" ]; then
+            SM="$SDK_DIR/cmdline-tools/latest/bin/sdkmanager"
+          elif [ -f "$SDK_DIR/cmdline-tools/bin/sdkmanager" ]; then
+            SM="$SDK_DIR/cmdline-tools/bin/sdkmanager"
+          else
+            echo "sdkmanager not found!"
+            exit 1
+          fi
+          yes | "$SM" --sdk_root="$SDK_DIR" --licenses
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -63,14 +81,15 @@ jobs:
             exit $GRADLE_EXIT
           fi
 
-      - name: Report build failure as commit comment
+      - name: Save build error log to repo
         if: failure()
         run: |
-          ERROR_LOG=$(cat /tmp/build-output.txt | head -c 30000)
-          curl -s -X POST "https://api.github.com/repos/zigorminsk-debug/Git-explorer-box/commits/${{ github.sha }}/comments" \
-            -H "Authorization: Bearer ${{ github.token }}" \
-            -H "Accept: application/vnd.github+json" \
-            -d "{\"body\":\"CI build failure: \`\`\`${ERROR_LOG}\`\`\`\"}" || true
+          cp /tmp/build-output.txt BUILD_ERROR.log
+          git config user.email "ci@github-actions"
+          git config user.name "GitHub Actions"
+          git add BUILD_ERROR.log
+          git commit -m "CI build error log [skip ci]"
+          git push origin ${{ github.ref }}
 
       - name: Upload build output log (always)
         if: always()
