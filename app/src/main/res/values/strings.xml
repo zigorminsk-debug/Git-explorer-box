@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Git Explorer Box</string>
 
-    <!-- GitHub API token (optional). Leave empty for unauthenticated requests (60 req/hour). -->
+    <!-- Токен GitHub API (опционально). Оставьте пустым для неаутентифицированных запросов (60 req/час). -->
     <string name="github_api_token"></string>
 
     <string name="catalog_title">Каталог разделов</string>
@@ -14,8 +14,8 @@
     <string name="no_description">Без описания</string>
     <string name="unknown_language">?</string>
     <string name="stars_label">★ %d</string>
-    <string name="forks_label">forks %d</string>
-    <string name="issues_label">issues %d</string>
+    <string name="forks_label">разветвлений: %d</string>
+    <string name="issues_label">задач: %d</string>
 
     <string name="open_on_github">Открыть на GitHub</string>
     <string name="bookmark_add">В избранное</string>
