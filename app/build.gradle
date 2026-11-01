@@ -34,10 +34,8 @@ android {
         jvmTarget = '1.8'
     }
 
-    dataBinding {
-        enabled = false
-    }
     buildFeatures {
+        dataBinding = false
         viewBinding true
     }
 }
