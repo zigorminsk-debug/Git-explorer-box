@@ -10,6 +10,7 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.util.concurrent.Executors
 
 object GitHubApi {
@@ -34,7 +35,7 @@ object GitHubApi {
         callback: Callback<List<Repo>>
     ) {
         executor.execute {
-            val encoded = URLEncoder.encode(query, Charsets.UTF_8.name())
+            val encoded = URLEncoder.encode(query, StandardCharsets.UTF_8.name())
             val urlString = "$BASE/search/repositories?q=$encoded&sort=stars&order=desc&per_page=20&page=$page"
             val json = try {
                 fetchString(urlString, context)
@@ -100,7 +101,7 @@ object GitHubApi {
         }
         return try {
             connection.inputStream.use { is ->
-                BufferedReader(InputStreamReader(is, Charsets.UTF_8)).use { br ->
+                BufferedReader(InputStreamReader(is, StandardCharsets.UTF_8)).use { br ->
                     br.readText()
                 }
             }
