@@ -23,24 +23,12 @@ android {
         }
     }
 
-    signingConfigs {
-        // Постоянная подпись релиза. Ключ берётся из переменных окружения
-        // (в GitHub Actions — из Secrets). Один и тот же сертификат позволяет
-        // устанавливать обновление поверх уже установленного приложения.
-        release {
-            def storeFilePath = System.getenv('RELEASE_STORE_FILE') ?: 'release-keystore.jks'
-            storeFile file(storeFilePath)
-            storePassword System.getenv('RELEASE_STORE_PASSWORD') ?: ''
-            keyAlias System.getenv('RELEASE_KEY_ALIAS') ?: 'release'
-            keyPassword System.getenv('RELEASE_KEY_PASSWORD') ?: ''
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            // Подпись релиза настраивается через переменные окружения в CI (RELEASE_STORE_*)
+            // и применяется в release.yml. Ключ не коммитится в репозиторий.
         }
         debug {
             signingConfig signingConfigs.debug
