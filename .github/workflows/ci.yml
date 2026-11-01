@@ -32,9 +32,8 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build debug APK (capture stacktrace)
-        run: |
-          gradle assembleDebug --stacktrace > /tmp/build-output.txt 2>&1 || echo "BUILD_FAILED" > /tmp/build-status.txt
+      - name: Build debug APK
+        run: gradle assembleDebug
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
