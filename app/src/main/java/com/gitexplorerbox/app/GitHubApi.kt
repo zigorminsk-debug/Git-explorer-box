@@ -91,7 +91,7 @@ object GitHubApi {
             requestMethod = "GET"
             connectTimeout = 15000
             readTimeout = 15000
-            setRequestProperty("User-Agent", USER_AGENT) // GitHub требует User-Agent
+            setRequestProperty("User-Agent", USER_AGENT)
             setRequestProperty("Accept", "application/vnd.github+json")
             val token = context.getString(R.string.github_api_token).trim()
             if (token.isNotEmpty()) {
@@ -99,11 +99,9 @@ object GitHubApi {
             }
         }
         return try {
-            connection.inputStream.use { is ->
-                BufferedReader(InputStreamReader(is, "UTF-8")).use { br ->
-                    br.readText()
-                }
-            }
+            val is = connection.inputStream
+            val reader = BufferedReader(InputStreamReader(is, "UTF-8"))
+            reader.readText()
         } finally {
             connection.disconnect()
         }
