@@ -32,25 +32,11 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Run unit tests (capture stacktrace)
-        run: |
-          gradle test --stacktrace > /tmp/test-output.txt 2>&1 || echo "TESTS_FAILED" > /tmp/test-status.txt
+      - name: Run unit tests
+        run: gradle test
 
-      - name: Report test failure as commit comment
-        if: failure()
-        run: |
-          gh api -X POST repos/zigorminsk-debug/Git-explorer-box/commits/${{ github.sha }}/comments \
-            -f body="CI test failure: ```$(cat /tmp/test-output.txt | head -c 30000)```" || true
-
-      - name: Build debug APK (capture stacktrace)
-        run: |
-          gradle assembleDebug --stacktrace > /tmp/build-output.txt 2>&1 || echo "BUILD_FAILED" > /tmp/build-status.txt
-
-      - name: Report build failure as commit comment
-        if: failure()
-        run: |
-          gh api -X POST repos/zigorminsk-debug/Git-explorer-box/commits/${{ github.sha }}/comments \
-            -f body="CI build failure: ```$(cat /tmp/build-output.txt | head -c 30000)```" || true
+      - name: Build debug APK
+        run: gradle assembleDebug
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4

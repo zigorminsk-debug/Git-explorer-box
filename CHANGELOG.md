@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.4] — 2026-11-01
+
+### Исправлено
+- CI workflow очищен: убраны отладочные шаги (capture stacktrace, commit comments), сборка стабильно проходит (тесты + assembleDebug).
+- `.gitignore` больше не исключает `build.gradle` файлы.
+
 ## [1.0.3] — 2026-11-01
 
 ### Исправлено
