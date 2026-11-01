@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity(), SectionAdapter.OnSectionClickListener 
 
         val adapter = SectionAdapter(Section.seeds, this)
         val recycler: RecyclerView = findViewById(R.id.recycler)
+        recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
 
         val fabSearch: FloatingActionButton = findViewById(R.id.fab_search)
