@@ -4,6 +4,12 @@
 
 ### Исправлено
 - CI workflow стабильно собирает debug APK: используется предустановленный Android SDK на ubuntu-latest раннере, принимаются лицензии через `sdkmanager --licenses`, создаётся `local.properties` с `sdk.dir`.
+- Чистый рабочий workflow без отладочных шагов.
+
+## [1.0.4] — 2026-11-01
+
+### Исправлено
+- CI workflow стабильно собирает debug APK: используется предустановленный Android SDK на ubuntu-latest раннере, принимаются лицензии через `sdkmanager --licenses`, создаётся `local.properties` с `sdk.dir`.
 - Убраны отладочные шаги (capture output, commit comments), чистый рабочий workflow.
 
 ## [1.0.4] — 2026-11-01
