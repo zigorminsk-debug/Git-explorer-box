@@ -18,11 +18,8 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v4
-        with:
-          packages: 'platform-tools,android-34,build-tools;34.0.0'
-          accept-android-sdk-licenses: true
+      - name: Set up Android SDK (v3, default packages)
+        uses: android-actions/setup-android@v3
 
       - name: Export Android SDK path for Gradle
         run: |
