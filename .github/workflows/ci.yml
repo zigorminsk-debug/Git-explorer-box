@@ -18,18 +18,10 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Show Android SDK env
-        run: |
-          echo "ANDROID_HOME=$ANDROID_HOME"
-          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
-          ls -la /usr/local/lib/android/sdk 2>/dev/null || echo "No SDK at /usr/local/lib/android/sdk"
-          ls -la $ANDROID_HOME 2>/dev/null || echo "ANDROID_HOME dir not found"
-
-      - name: Prepare local.properties
+      - name: Prepare local.properties (use preinstalled Android SDK)
         run: |
           SDK_DIR="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
           echo "sdk.dir=$SDK_DIR" > ${{ github.workspace }}/local.properties
-          cat ${{ github.workspace }}/local.properties
 
       - name: Accept Android SDK licenses
         run: |
@@ -38,15 +30,8 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build debug APK (capture output)
-        run: |
-          gradle assembleDebug --stacktrace > /tmp/build-output.txt 2>&1 || echo "BUILD_FAILED" > /tmp/build-status.txt
-
-      - name: Report build failure as commit comment
-        if: failure()
-        run: |
-          gh api -X POST repos/zigorminsk-debug/Git-explorer-box/commits/${{ github.sha }}/comments \
-            -f body="CI build failure: ```$(cat /tmp/build-output.txt | head -c 30000)```" || true
+      - name: Build debug APK
+        run: gradle assembleDebug --stacktrace
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
