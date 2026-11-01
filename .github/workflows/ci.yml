@@ -48,6 +48,15 @@ jobs:
             exit $GRADLE_EXIT
           fi
 
+      - name: Report build failure as commit comment
+        if: failure()
+        run: |
+          ERROR_LOG=$(cat /tmp/build-output.txt | head -c 30000)
+          curl -s -X POST "https://api.github.com/repos/zigorminsk-debug/Git-explorer-box/commits/${{ github.sha }}/comments" \
+            -H "Authorization: Bearer ${{ github.token }}" \
+            -H "Accept: application/vnd.github+json" \
+            -d "{\"body\":\"CI build failure: \`\`\`${ERROR_LOG}\`\`\`\"}" || true
+
       - name: Upload build output log (always)
         if: always()
         uses: actions/upload-artifact@v4
