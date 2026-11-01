@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Версия релиза (пример: 1.0.1). Запишите также в CHANGELOG.md и app/build.gradle'
+        description: 'Версия релиза (пример: 1.0.2). Запишите также в CHANGELOG.md и app/build.gradle'
         required: false
 
 jobs:
@@ -29,6 +29,9 @@ jobs:
         with:
           sdk: 'platform-tools,android-34,build-tools;34.0.0'
 
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Restore release keystore from secret
         run: echo "${{ secrets.RELEASE_STORE_FILE }}" | base64 -d > app/release-keystore.jks
         shell: bash
@@ -39,7 +42,7 @@ jobs:
           RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
           RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
-        run: ./gradlew assembleRelease
+        run: gradle assembleRelease
 
       - name: Upload signed release APK
         uses: actions/upload-artifact@v4

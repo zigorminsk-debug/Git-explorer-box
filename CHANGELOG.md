@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2] — 2026-11-01
+
+### Исправлено
+- CI workflow больше не вызывает отсутствующий `./gradlew` (Gradle wrapper не был в репозитории).
+- Используется системный Gradle через `gradle/actions/setup-gradle@v4` — команды `gradle test` / `gradle assembleDebug`.
+- Оба workflow (`ci.yml`, `release.yml`) приведены к единому способу вызова Gradle.
+
 ## [1.0.1] — 2026-11-01
 
 ### Добавлено

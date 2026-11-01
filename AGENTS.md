@@ -16,10 +16,11 @@ Android-приложение, которое каталогизирует пуб
 
 ## Как собирать (требуется Android SDK — в沙боксе нет Java)
 ```
-./gradlew test                   # unit-тесты (JUnit, без Android SDK)
-./gradlew assembleDebug          # debug APK
-./gradlew assembleRelease        # release, нужен RELEASE_* (см. ниже)
+gradle test                      # unit-тесты (JUnit, без Android SDK)
+gradle assembleDebug             # debug APK
+gradle assembleRelease           # release, нужен RELEASE_* (см. ниже)
 ```
+В репозитории нет Gradle wrapper (`gradlew`), поэтому локально и в CI используется системный Gradle.
 Отладочная и релизная сборки проверяются в GitHub Actions (включая `test`).
 
 ## Как добавить новые разделы каталога
