@@ -23,6 +23,9 @@ jobs:
         with:
           sdk: 'platform-tools,android-34,build-tools;34.0.0'
 
+      - name: Run unit tests
+        run: ./gradlew test
+
       - name: Build debug APK
         run: ./gradlew assembleDebug
 

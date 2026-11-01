@@ -16,10 +16,15 @@ Android-приложение, которое каталогизирует пуб
 
 ## Как собирать (требуется Android SDK — в沙боксе нет Java)
 ```
+./gradlew test                   # unit-тесты (JUnit, без Android SDK)
 ./gradlew assembleDebug          # debug APK
 ./gradlew assembleRelease        # release, нужен RELEASE_* (см. ниже)
 ```
-Отладочная и релизная сборки проверяются в GitHub Actions.
+Отладочная и релизная сборки проверяются в GitHub Actions (включая `test`).
+
+## Как добавить новые разделы каталога
+Отредактируйте `Section.seeds` в `Section.kt` — добавьте `Section("Заголовок", "query sort:stars")`.
+Для локальных разделов (без GitHub API) используйте `Section("Заголовок", "", localOnly = true)`.
 
 ## Подпись (обновление поверх установленной версии)
 1. `cd app && RELEASE_STORE_PASSWORD=.. RELEASE_KEY_PASSWORD=.. ../scripts/generate-keystore.sh`

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.1] — 2026-11-01
+
+### Добавлено
+- Unit-тесты модели `Repo` (JSON round-trip, опциональные поля, лицензия SPDX из `license.spdx_id`) — `app/src/test/.../RepoTest.kt`.
+- Шаг `./gradlew test` в `.github/workflows/ci.yml` — тесты запускаются на каждый push/PR перед сборкой debug APK.
+
 ## [1.0.0] — 2026-11-01
 
 ### Добавлено
