@@ -69,16 +69,10 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build debug APK (capture output)
+      - name: Build debug APK (stream output to console)
         run: |
-          set +e
-          gradle assembleDebug --stacktrace > /tmp/build-output.txt 2>&1
-          GRADLE_EXIT=$?
-          set -e
-          cat /tmp/build-output.txt
-          if [ $GRADLE_EXIT -ne 0 ]; then
-            exit $GRADLE_EXIT
-          fi
+          set -o pipefail
+          gradle assembleDebug --stacktrace --info 2>&1 | tee /tmp/build-output.txt
 
       - name: Report build failure as commit comment
         if: failure()
