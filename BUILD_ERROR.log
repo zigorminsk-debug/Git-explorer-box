@@ -18,9 +18,9 @@ Starting a Gradle Daemon (subsequent builds will be faster)
 > Task :app:mapDebugSourceSetPaths
 > Task :app:generateDebugResources
 > Task :app:packageDebugResources
-> Task :app:mergeDebugResources
 > Task :app:createDebugCompatibleScreenManifests
 > Task :app:extractDeepLinksDebug
+> Task :app:mergeDebugResources
 > Task :app:parseDebugLocalResources
 
 > Task :app:processDebugMainManifest
@@ -36,25 +36,22 @@ Recommendation: remove package="com.gitexplorerbox.app" from the source AndroidM
 > Task :app:generateDebugAssets UP-TO-DATE
 > Task :app:mergeDebugAssets
 > Task :app:compressDebugAssets
-> Task :app:processDebugResources
 > Task :app:checkDebugDuplicateClasses
+> Task :app:processDebugResources
 > Task :app:desugarDebugFileDependencies
 > Task :app:mergeDebugStartupProfile
 
 > Task :app:compileDebugKotlin FAILED
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:102:42 Expecting an element
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:102:45 Unexpected tokens (use ';' to separate expressions on the same line)
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:50 Expecting an expression
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:50 Expecting ')'
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:62 Unexpected tokens (use ';' to separate expressions on the same line)
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:54 Type mismatch: inferred type is String but Int was expected
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:68 Type mismatch: inferred type is ([Error type: Cannot infer a lambda parameter type]) -> ??? but String? was expected
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:70 Cannot infer a type for this parameter. Please specify it explicitly.
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:102:17 Expecting property name or receiver type
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:59 Expecting an expression
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:59 Expecting ')'
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:71 Unexpected tokens (use ';' to separate expressions on the same line)
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:63 Type mismatch: inferred type is String but Int was expected
 e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/SearchActivity.kt:4:21 Unresolved reference: EditorInfo
 e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/SearchActivity.kt:45:29 Unresolved reference: EditorInfo
 
 > Task :app:mergeExtDexDebug
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_4-1793542959632.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_4-1793543192766.json
 
 [Incubating] Problems report is available at: file:///home/runner/work/Git-explorer-box/Git-explorer-box/build/reports/problems/problems-report.html
 
@@ -287,5 +284,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD FAILED in 1m 23s
+BUILD FAILED in 1m 41s
 23 actionable tasks: 23 executed
