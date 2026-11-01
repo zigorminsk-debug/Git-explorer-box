@@ -18,9 +18,9 @@ Starting a Gradle Daemon (subsequent builds will be faster)
 > Task :app:mapDebugSourceSetPaths
 > Task :app:generateDebugResources
 > Task :app:packageDebugResources
+> Task :app:mergeDebugResources
 > Task :app:createDebugCompatibleScreenManifests
 > Task :app:extractDeepLinksDebug
-> Task :app:mergeDebugResources
 > Task :app:parseDebugLocalResources
 
 > Task :app:processDebugMainManifest
@@ -30,37 +30,31 @@ Recommendation: remove package="com.gitexplorerbox.app" from the source AndroidM
 
 > Task :app:processDebugManifest
 > Task :app:javaPreCompileDebug
+> Task :app:processDebugManifestForPackage
 > Task :app:mergeDebugShaders
 > Task :app:compileDebugShaders NO-SOURCE
 > Task :app:generateDebugAssets UP-TO-DATE
 > Task :app:mergeDebugAssets
 > Task :app:compressDebugAssets
+> Task :app:processDebugResources
 > Task :app:checkDebugDuplicateClasses
 > Task :app:desugarDebugFileDependencies
 > Task :app:mergeDebugStartupProfile
-> Task :app:processDebugManifestForPackage
-> Task :app:mergeExtDexDebug
-> Task :app:mergeLibDexDebug
-> Task :app:mergeDebugJniLibFolders
-> Task :app:mergeDebugNativeLibs NO-SOURCE
-> Task :app:stripDebugDebugSymbols NO-SOURCE
-> Task :app:processDebugResources
-> Task :app:validateSigningDebug
-> Task :app:writeDebugAppMetadata
-> Task :app:writeDebugSigningConfigVersions
 
 > Task :app:compileDebugKotlin FAILED
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:42 Expecting an element
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:45 Unexpected tokens (use ';' to separate expressions on the same line)
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:104:50 Expecting an expression
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:104:50 Expecting ')'
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:104:77 Unexpected tokens (use ';' to separate expressions on the same line)
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:104:54 Type mismatch: inferred type is Charset! but Int was expected
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:104:83 Type mismatch: inferred type is ([Error type: Cannot infer a lambda parameter type]) -> ??? but String? was expected
-e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:104:85 Cannot infer a type for this parameter. Please specify it explicitly.
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:102:42 Expecting an element
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:102:45 Unexpected tokens (use ';' to separate expressions on the same line)
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:50 Expecting an expression
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:50 Expecting ')'
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:62 Unexpected tokens (use ';' to separate expressions on the same line)
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:54 Type mismatch: inferred type is String but Int was expected
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:68 Type mismatch: inferred type is ([Error type: Cannot infer a lambda parameter type]) -> ??? but String? was expected
+e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/GitHubApi.kt:103:70 Cannot infer a type for this parameter. Please specify it explicitly.
 e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/SearchActivity.kt:4:21 Unresolved reference: EditorInfo
 e: file:///home/runner/work/Git-explorer-box/Git-explorer-box/app/src/main/java/com/gitexplorerbox/app/SearchActivity.kt:45:29 Unresolved reference: EditorInfo
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_4-1793542684559.json
+
+> Task :app:mergeExtDexDebug
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_4-1793542959632.json
 
 [Incubating] Problems report is available at: file:///home/runner/work/Git-explorer-box/Git-explorer-box/build/reports/problems/problems-report.html
 
@@ -104,6 +98,36 @@ org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:com
 	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:475)
 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:392)
+	at org.gradle.execution.plan.DefaultPlanExecutor.process(DefaultPlanExecutor.java:118)
+	at org.gradle.execution.DefaultBuildWorkExecutor.executePlan(DefaultBuildWorkExecutor.java:143)
+	at org.gradle.execution.DefaultBuildWorkExecutor.displayOrExecutePlan(DefaultBuildWorkExecutor.java:128)
+	at org.gradle.execution.DefaultBuildWorkExecutor$1.call(DefaultBuildWorkExecutor.java:79)
+	at org.gradle.execution.DefaultBuildWorkExecutor$1.call(DefaultBuildWorkExecutor.java:75)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+	at org.gradle.execution.DefaultBuildWorkExecutor.execute(DefaultBuildWorkExecutor.java:75)
+	at org.gradle.internal.build.DefaultBuildLifecycleController.lambda$executeTasks$0(DefaultBuildLifecycleController.java:323)
+	at org.gradle.internal.model.StateTransitionController.doTransition(StateTransitionController.java:324)
+	at org.gradle.internal.model.StateTransitionController.lambda$tryTransition$0(StateTransitionController.java:235)
+	at org.gradle.internal.work.DefaultSynchronizer.withLock(DefaultSynchronizer.java:45)
+	at org.gradle.internal.model.StateTransitionController.tryTransition(StateTransitionController.java:235)
+	at org.gradle.internal.build.DefaultBuildLifecycleController.executeTasks(DefaultBuildLifecycleController.java:314)
+	at org.gradle.internal.build.DefaultBuildWorkGraphController$DefaultBuildWorkGraph.runWork(DefaultBuildWorkGraphController.java:207)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$runAndReleaseLocks$0(DefaultWorkerLeaseService.java:296)
+	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:43)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAndReleaseLocks(DefaultWorkerLeaseService.java:294)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:290)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:282)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+	at org.gradle.composite.internal.DefaultBuildController.doRun(DefaultBuildController.java:182)
+	at org.gradle.composite.internal.DefaultBuildController$BuildOpRunnable.lambda$run$0(DefaultBuildController.java:199)
+	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
+	at org.gradle.composite.internal.DefaultBuildController$BuildOpRunnable.run(DefaultBuildController.java:199)
 	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:65)
 	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
 Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
@@ -219,7 +243,7 @@ Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionExcept
 	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:38)
 	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:68)
 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.doExecute(DefaultTaskNodeExecutor.java:364)
-	... 25 more
+	... 55 more
 Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
 	at org.jetbrains.kotlin.gradle.tasks.TasksUtilsKt.throwExceptionIfCompilationFailed(tasksUtils.kt:20)
 	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:141)
@@ -263,5 +287,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD FAILED in 1m 36s
-28 actionable tasks: 28 executed
+BUILD FAILED in 1m 23s
+23 actionable tasks: 23 executed
