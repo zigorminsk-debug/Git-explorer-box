@@ -99,8 +99,8 @@ object GitHubApi {
             }
         }
         return try {
-            val is = connection.inputStream
-            val reader = BufferedReader(InputStreamReader(is, "UTF-8"))
+            val inputStream = connection.inputStream
+            val reader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
             reader.readText()
         } finally {
             connection.disconnect()
