@@ -33,16 +33,15 @@ jobs:
       - name: Run unit tests
         run: gradle test
 
-      - name: Capture test output on failure
+      - name: Report failure as issue
         if: failure()
-        run: gradle test --stacktrace > /tmp/test-output.txt 2>&1 || true
-
-      - name: Upload test output
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-output
-          path: /tmp/test-output.txt
+        run: |
+          gradle test --stacktrace > /tmp/test-output.txt 2>&1 || true
+          gh issue create \
+            --title "CI failure — $(date +%Y-%m-%d_%H-%M-%S)" \
+            --label "ci-failure" \
+            --body "```$(cat /tmp/test-output.txt)```" \
+            --repo zigorminsk-debug/Git-explorer-box || true
 
       - name: Build debug APK
         run: gradle assembleDebug
