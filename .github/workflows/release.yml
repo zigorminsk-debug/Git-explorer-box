@@ -24,16 +24,16 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Install Android SDK via sdkmanager
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools,android-34,build-tools;34.0.0'
+          accept-android-sdk-licenses: true
+
+      - name: Export Android SDK path for Gradle
         run: |
-          mkdir -p /opt/android-sdk
-          cd /opt/android-sdk
-          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
-          unzip -q commandlinetools-*.zip
-          yes | cmdline-tools/bin/sdkmanager --sdk_root=/opt/android-sdk "platform-tools" "platforms;android-34" "build-tools;34.0.0" > /dev/null
-          echo "ANDROID_HOME=/opt/android-sdk" >> $GITHUB_ENV
-          echo "ANDROID_SDK_ROOT=/opt/android-sdk" >> $GITHUB_ENV
-          echo "sdk.dir=/opt/android-sdk" > ${{ github.workspace }}/local.properties
+          echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
+          echo "sdk.dir=$ANDROID_HOME" > ${{ github.workspace }}/local.properties
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
