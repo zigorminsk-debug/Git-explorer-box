@@ -30,7 +30,7 @@ jobs:
           echo "sdk.dir=/opt/android-sdk" > ${{ github.workspace }}/local.properties
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Build debug APK (retry up to 3 times, clear Gradle cache first)
         run: |
