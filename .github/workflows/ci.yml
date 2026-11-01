@@ -19,10 +19,9 @@ jobs:
           java-version: '17'
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v2
         with:
-          packages: 'platform-tools,android-34,build-tools;34.0.0'
-          accept-android-sdk-licenses: true
+          sdk: 'platform-tools,android-34,build-tools;34.0.0'
 
       - name: Export Android SDK path for Gradle
         run: |
