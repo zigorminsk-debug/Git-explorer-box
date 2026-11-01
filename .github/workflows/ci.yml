@@ -23,6 +23,12 @@ jobs:
         with:
           sdk: 'platform-tools,android-34,build-tools;34.0.0'
 
+      - name: Export Android SDK path for Gradle
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
