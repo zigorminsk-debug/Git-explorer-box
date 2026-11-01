@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Git Explorer Box</string>
+
+    <!-- GitHub API token (optional). Leave empty for unauthenticated requests (60 req/hour). -->
+    <string name="github_api_token"></string>
+
+    <string name="catalog_title">Каталог разделов</string>
+    <string name="section_favorites_subtitle">Ваши закладки</string>
+
+    <string name="search">Искать на GitHub</string>
+    <string name="search_hint">Например: язык:kotlin, машинное обучение, инструменты разработки</string>
+    <string name="search_enter">Введите поисковый запрос</string>
+
+    <string name="no_description">Без описания</string>
+    <string name="unknown_language">?</string>
+    <string name="stars_label">★ %d</string>
+    <string name="forks_label">forks %d</string>
+    <string name="issues_label">issues %d</string>
+
+    <string name="open_on_github">Открыть на GitHub</string>
+    <string name="bookmark_add">В избранное</string>
+    <string name="bookmark_remove">Удалить из избранного</string>
+
+    <string name="loading">Загрузка…</string>
+    <string name="error_load">Не удалось загрузить данные</string>
+    <string name="retry">Попробовать ещё раз</string>
+    <string name="empty">Репозитории не найдены</string>
+    <string name="no_repos_in_section">В этом разделе пока нет репозиториев</string>
+    <string name="favorites_empty">У вас нет закладок.\nОткройте репозиторий и нажмите ★</string>
+
+    <string name="created">Создан: %s</string>
+    <string name="updated">Обновлён: %s</string>
+    <string name="license">Лицензия: %s</string>
+    <string name="language">Язык: %s</string>
+</resources>

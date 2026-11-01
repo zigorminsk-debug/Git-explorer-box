@@ -1,0 +1,25 @@
+*.apk
+*.aab
+
+# Gradle
+.gradle/
+build/
+*.iml
+*.gradle
+local.properties
+.cxx/
+.externalNativeBuild/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Signing keys (never commit real keys; injected via GitHub Secrets)
+*.keystore
+*.jks
+app/release-keystore.jks
+app/*.jks
+
+# Android Studio
+.idea/
+*.hprof
