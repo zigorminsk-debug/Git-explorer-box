@@ -5,8 +5,10 @@
 .gradle/
 build/
 *.iml
-*.gradle
 local.properties
+
+# Gradle wrapper (не используется в этом проекте — системный Gradle через CI)
+# gradle-wrapper.properties коммитится, если появится wrapper
 .cxx/
 .externalNativeBuild/
 
