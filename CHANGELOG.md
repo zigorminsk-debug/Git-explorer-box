@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3] — 2026-11-01
+
+### Исправлено
+- CI workflow: `.gitignore` содержал `*.gradle`, что исключало `build.gradle` файлы из репозитория — сборка в Actions была невозможна. Убрано из игнорирования.
+- CI устанавливает Android SDK вручную через `sdkmanager` (действие `android-actions/setup-android` не принимает нужные параметры на текущем раннере).
+- `actions/setup-java` обновлён до v5, `gradle/actions/setup-gradle@v4` для кэширования.
+
 ## [1.0.2] — 2026-11-01
 
 ### Исправлено

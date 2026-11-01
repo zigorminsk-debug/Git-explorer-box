@@ -23,6 +23,8 @@ gradle assembleRelease           # release, нужен RELEASE_* (см. ниже
 В репозитории нет Gradle wrapper (`gradlew`), поэтому локально и в CI используется системный Gradle.
 Отладочная и релизная сборки проверяются в GitHub Actions (включая `test`).
 
+CI устанавливает Android SDK вручную через `sdkmanager` (командная строка), так как действие `android-actions/setup-android` на текущем раннере не принимает параметры `sdk`/`packages`.
+
 ## Как добавить новые разделы каталога
 Отредактируйте `Section.seeds` в `Section.kt` — добавьте `Section("Заголовок", "query sort:stars")`.
 Для локальных разделов (без GitHub API) используйте `Section("Заголовок", "", localOnly = true)`.
