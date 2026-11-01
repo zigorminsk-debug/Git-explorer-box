@@ -3,18 +3,32 @@ package com.gitexplorerbox.app
 import android.os.Bundle
 import android.view.EditorInfo
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.gitexplorerbox.app.databinding.ActivitySearchBinding
+import androidx.recyclerview.widget.RecyclerView
 
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySearchBinding
     private lateinit var adapter: RepoAdapter
+
+    private lateinit var editQuery: EditText
+    private lateinit var btnSearch: Button
+    private lateinit var searchProgress: ProgressBar
+    private lateinit var searchError: TextView
+    private lateinit var searchRecycler: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_search)
+
+        editQuery = findViewById(R.id.edit_query)
+        btnSearch = findViewById(R.id.btn_search)
+        searchProgress = findViewById(R.id.search_progress)
+        searchError = findViewById(R.id.search_error)
+        searchRecycler = findViewById(R.id.search_recycler)
 
         supportActionBar?.title = getString(R.string.search)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -24,10 +38,10 @@ class SearchActivity : AppCompatActivity() {
             { repo -> openDetail(repo) },
             { _, _ -> }
         )
-        binding.searchRecycler.adapter = adapter
+        searchRecycler.adapter = adapter
 
-        binding.btnSearch.setOnClickListener { performSearch() }
-        binding.editQuery.setOnEditorActionListener { _, actionId, _ ->
+        btnSearch.setOnClickListener { performSearch() }
+        editQuery.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 performSearch()
                 true
@@ -43,37 +57,37 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun performSearch() {
-        val query = binding.editQuery.text.toString().trim()
+        val query = editQuery.text.toString().trim()
         if (query.isEmpty()) {
-            binding.editQuery.error = getString(R.string.search_enter)
+            editQuery.error = getString(R.string.search_enter)
             return
         }
-        binding.editQuery.error = null
+        editQuery.error = null
 
-        binding.searchProgress.visibility = View.VISIBLE
-        binding.search_error.visibility = View.GONE
-        binding.searchRecycler.visibility = View.GONE
+        searchProgress.visibility = View.VISIBLE
+        searchError.visibility = View.GONE
+        searchRecycler.visibility = View.GONE
 
         GitHubApi.searchRepositories(this, query, 1, object : GitHubApi.Callback<List<Repo>> {
             override fun onSuccess(result: List<Repo>) {
                 runOnUiThread {
-                    binding.searchProgress.visibility = View.GONE
+                    searchProgress.visibility = View.GONE
                     adapter.setItems(result)
-                    binding.searchRecycler.visibility = View.VISIBLE
+                    searchRecycler.visibility = View.VISIBLE
                     if (result.isEmpty()) {
-                        binding.search_error.visibility = View.VISIBLE
-                        binding.search_error.text = getString(R.string.empty)
+                        searchError.visibility = View.VISIBLE
+                        searchError.text = getString(R.string.empty)
                     } else {
-                        binding.search_error.visibility = View.GONE
+                        searchError.visibility = View.GONE
                     }
                 }
             }
 
             override fun onError(error: String) {
                 runOnUiThread {
-                    binding.searchProgress.visibility = View.GONE
-                    binding.search_error.visibility = View.VISIBLE
-                    binding.search_error.text = error
+                    searchProgress.visibility = View.GONE
+                    searchError.visibility = View.VISIBLE
+                    searchError.text = error
                 }
             }
         })

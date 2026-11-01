@@ -1,9 +1,11 @@
 package com.gitexplorerbox.app
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.gitexplorerbox.app.databinding.ItemRepoBinding
 
 class RepoAdapter(
     private val items: MutableList<Repo>,
@@ -11,37 +13,41 @@ class RepoAdapter(
     private val onStarToggle: (Repo, Boolean) -> Unit
 ) : RecyclerView.Adapter<RepoAdapter.ViewHolder>() {
 
-    class ViewHolder(val binding: ItemRepoBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val title: TextView = itemView.findViewById(R.id.title)
+        val description: TextView = itemView.findViewById(R.id.description)
+        val meta: TextView = itemView.findViewById(R.id.meta)
+        val star: ImageView = itemView.findViewById(R.id.star)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemRepoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_repo, parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val repo = items[position]
-        val b = holder.binding
-        val ctx = b.root.context
+        val ctx = holder.itemView.context
 
-        b.title.text = repo.fullName
-        b.description.text = repo.description ?: ctx.getString(R.string.no_description)
+        holder.title.text = repo.fullName
+        holder.description.text = repo.description ?: ctx.getString(R.string.no_description)
         val language = repo.language ?: ctx.getString(R.string.unknown_language)
-        b.meta.text = buildString {
+        holder.meta.text = buildString {
             append(language)
             append("   ")
             append(ctx.getString(R.string.stars_label, repo.stars))
             append("   ")
             append(ctx.getString(R.string.forks_label, repo.forks))
         }
-        b.star.setImageResource(
+        holder.star.setImageResource(
             if (Bookmarks.isBookmarked(ctx, repo.fullName))
                 R.drawable.ic_star_filled else R.drawable.ic_star_border
         )
 
-        b.root.setOnClickListener { onItemClick(repo) }
-        b.star.setOnClickListener {
+        holder.itemView.setOnClickListener { onItemClick(repo) }
+        holder.star.setOnClickListener {
             val added = Bookmarks.toggle(ctx, repo)
-            b.star.setImageResource(
+            holder.star.setImageResource(
                 if (added) R.drawable.ic_star_filled else R.drawable.ic_star_border
             )
             onStarToggle(repo, added)

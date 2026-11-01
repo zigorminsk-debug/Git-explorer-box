@@ -2,24 +2,25 @@ package com.gitexplorerbox.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.gitexplorerbox.app.databinding.ActivityMainBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(), SectionAdapter.OnSectionClickListener {
 
-    private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
         supportActionBar?.title = getString(R.string.app_name)
 
         val adapter = SectionAdapter(Section.seeds, this)
-        binding.recycler.adapter = adapter
+        val recycler: RecyclerView = findViewById(R.id.recycler)
+        recycler.adapter = adapter
 
-        binding.fabSearch.setOnClickListener {
+        val fabSearch: FloatingActionButton = findViewById(R.id.fab_search)
+        fabSearch.setOnClickListener {
             startActivity(Intent(this, SearchActivity::class.java))
         }
     }

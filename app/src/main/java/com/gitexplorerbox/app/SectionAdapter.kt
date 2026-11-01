@@ -1,9 +1,10 @@
 package com.gitexplorerbox.app
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.gitexplorerbox.app.databinding.ItemSectionBinding
 
 class SectionAdapter(
     private val sections: List<Section>,
@@ -14,23 +15,25 @@ class SectionAdapter(
         fun onSectionClick(section: Section)
     }
 
-    class ViewHolder(val binding: ItemSectionBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val title: TextView = itemView.findViewById(R.id.title)
+        val subtitle: TextView = itemView.findViewById(R.id.subtitle)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemSectionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_section, parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val section = sections[position]
-        val b = holder.binding
-        b.title.text = section.title
-        b.subtitle.text = if (section.localOnly) {
-            b.root.context.getString(R.string.section_favorites_subtitle)
+        holder.title.text = section.title
+        holder.subtitle.text = if (section.localOnly) {
+            holder.itemView.context.getString(R.string.section_favorites_subtitle)
         } else {
             "Поиск GitHub: ${section.query}"
         }
-        holder.root.setOnClickListener { listener.onSectionClick(section) }
+        holder.itemView.setOnClickListener { listener.onSectionClick(section) }
     }
 
     override fun getItemCount() = sections.size
