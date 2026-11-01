@@ -30,9 +30,15 @@ jobs:
           echo "sdk.dir=$SDK_DIR" > ${{ github.workspace }}/local.properties
           cat ${{ github.workspace }}/local.properties
 
+      - name: Install required SDK components
+        run: |
+          SDK_DIR="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          yes | "$SDK_DIR/cmdline-tools/bin/sdkmanager" --sdk_root="$SDK_DIR" "platform-tools" "platforms;android-34" "build-tools;34.0.0" > /dev/null 2>&1 || true
+
       - name: Accept Android SDK licenses
         run: |
-          yes | "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
+          SDK_DIR="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          yes | "$SDK_DIR/cmdline-tools/bin/sdkmanager" --sdk_root="$SDK_DIR" --licenses > /dev/null 2>&1 || true
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -57,11 +63,13 @@ jobs:
             exit $GRADLE_EXIT
           fi
 
-      - name: Report build failure as commit comment
-        if: failure()
-        run: |
-          gh api -X POST repos/zigorminsk-debug/Git-explorer-box/commits/${{ github.sha }}/comments \
-            -f body="CI build failure: ```$(cat /tmp/build-output.txt | head -c 30000)```" || true
+      - name: Upload build output log (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-log
+          path: /tmp/build-output.txt
+          if-no-files-found: warn
 
       - name: Upload signed release APK
         uses: actions/upload-artifact@v4

@@ -24,9 +24,15 @@ jobs:
           echo "sdk.dir=$SDK_DIR" > ${{ github.workspace }}/local.properties
           cat ${{ github.workspace }}/local.properties
 
+      - name: Install required SDK components
+        run: |
+          SDK_DIR="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          yes | "$SDK_DIR/cmdline-tools/bin/sdkmanager" --sdk_root="$SDK_DIR" "platform-tools" "platforms;android-34" "build-tools;34.0.0" > /dev/null 2>&1 || true
+
       - name: Accept Android SDK licenses
         run: |
-          yes | "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
+          SDK_DIR="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          yes | "$SDK_DIR/cmdline-tools/bin/sdkmanager" --sdk_root="$SDK_DIR" --licenses > /dev/null 2>&1 || true
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
