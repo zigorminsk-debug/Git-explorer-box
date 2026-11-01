@@ -24,15 +24,47 @@ jobs:
           echo "sdk.dir=$SDK_DIR" > ${{ github.workspace }}/local.properties
           cat ${{ github.workspace }}/local.properties
 
+      - name: Debug SDK environment
+        run: |
+          echo "=== ANDROID_HOME=$ANDROID_HOME ==="
+          echo "=== SDK_DIR contents ==="
+          ls -la "${ANDROID_HOME:-/usr/local/lib/android/sdk}/" 2>&1 || echo "SDK dir not found"
+          echo "=== cmdline-tools ==="
+          ls -la "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/" 2>&1 || echo "cmdline-tools not found"
+          ls -la "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/" 2>&1 || echo "cmdline-tools/latest not found"
+          ls -la "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/" 2>&1 || echo "cmdline-tools/latest/bin not found"
+          echo "=== build-tools ==="
+          ls -la "${ANDROID_HOME:-/usr/local/lib/android/sdk}/build-tools/" 2>&1 || echo "build-tools not found"
+          echo "=== platforms ==="
+          ls -la "${ANDROID_HOME:-/usr/local/lib/android/sdk}/platforms/" 2>&1 || echo "platforms not found"
+
       - name: Install required SDK components
         run: |
           SDK_DIR="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
-          yes | "$SDK_DIR/cmdline-tools/bin/sdkmanager" --sdk_root="$SDK_DIR" "platform-tools" "platforms;android-34" "build-tools;34.0.0" > /dev/null 2>&1 || true
+          # Try both cmdline-tools paths
+          if [ -f "$SDK_DIR/cmdline-tools/latest/bin/sdkmanager" ]; then
+            SM="$SDK_DIR/cmdline-tools/latest/bin/sdkmanager"
+          elif [ -f "$SDK_DIR/cmdline-tools/bin/sdkmanager" ]; then
+            SM="$SDK_DIR/cmdline-tools/bin/sdkmanager"
+          else
+            echo "sdkmanager not found!"
+            exit 1
+          fi
+          echo "Using sdkmanager: $SM"
+          yes | "$SM" --sdk_root="$SDK_DIR" "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Accept Android SDK licenses
         run: |
           SDK_DIR="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
-          yes | "$SDK_DIR/cmdline-tools/bin/sdkmanager" --sdk_root="$SDK_DIR" --licenses > /dev/null 2>&1 || true
+          if [ -f "$SDK_DIR/cmdline-tools/latest/bin/sdkmanager" ]; then
+            SM="$SDK_DIR/cmdline-tools/latest/bin/sdkmanager"
+          elif [ -f "$SDK_DIR/cmdline-tools/bin/sdkmanager" ]; then
+            SM="$SDK_DIR/cmdline-tools/bin/sdkmanager"
+          else
+            echo "sdkmanager not found!"
+            exit 1
+          fi
+          yes | "$SM" --sdk_root="$SDK_DIR" --licenses
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
