@@ -1,7 +1,6 @@
 package com.gitexplorerbox.app
 
 import android.os.Bundle
-import android.view.EditorInfo
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -42,7 +41,7 @@ class SearchActivity : AppCompatActivity() {
 
         btnSearch.setOnClickListener { performSearch() }
         editQuery.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            if (actionId == 3) { // EditorInfo.IME_ACTION_SEARCH
                 performSearch()
                 true
             } else {
